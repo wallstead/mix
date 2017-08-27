@@ -1,0 +1,108 @@
+<!-- /templates/index.liquid -->
+{% comment %}
+
+  This is the homepage of your site.
+
+  More info on global variables (available on all templates):
+    - http://docs.shopify.com/themes/liquid-variables/global
+{% endcomment %}
+
+<div class="half">
+  <div class="block">
+    <div class="title">
+      <i class="fa fa-info-circle" aria-hidden="true"></i>
+      <h2>About Mix Bakeshop</h2>
+    </div>
+    <div class="content">
+      <p>We are Mix Bakeshop, Reno’s favorite sweet spot! We first opened our doors in 2009 as Mix Cupcake Co. and haven’t looked back since. In May 2012, we moved to the Village Shopping Center, home of one of the best Farmer’s Markets in town. In September 2015 we purchased Levi’s Pies, a local pie purveyor around town who was established in 2012. We have now relocated to a much larger space in the same Village Shopping Center on California Avenue.</p>
+      <p>We specialize in cupcakes made from scratch daily, classic flavors the whole family will love. We make extraordinary handmade pies with the most incredible crust you have ever tasted. Traditional pies and seasonal flavors…we do them all. We also make a selection of fresh baked cookies and specialize in our incredible decorated sugar cookies. We can customize cupcakes, pies or cookies for any event or occasion.</p>
+      <p>Perfect for any occasion so you never need a reason to enjoy any of Mix Bakeshops delicious treats! Cupcakes, Pies and Cookies are the perfect treat for a special event, holiday or just to make your fellow co-workers, friends, neighbors or classmates smile!</p>
+    </div>
+  </div>
+  <div class="block">
+    <div class="title">
+      <i class="fa fa-instagram" aria-hidden="true"></i>
+      <h2>Instagram</h2>
+    </div>
+    <div id="instafeed" class="content"></div>
+  </div>
+</div>
+
+
+<div class="half">
+  <div class="block">
+    <div class="title">
+      <i class="fa fa-map-marker" aria-hidden="true"></i>
+      <h2>Find Us</h2>
+    </div>
+    <div class="content">
+      <iframe class="areaMap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1538.9775292479094!2d-119.8267541!3d39.515504!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80993fc25a7a438d%3A0xace3833f3cc7f8e1!2sMix+Cupcake+Co.!5e0!3m2!1sen!2sus!4v1427421919193" width="100%" height="300" frameborder="0" style="border: 0;"></iframe>
+    </div>
+  </div>
+  <div class="block">
+    <div class="title">
+      <i class="fa fa-phone" aria-hidden="true"></i>
+      <h2>Contact Us</h2>
+    </div>
+    <div class="content">
+      <div class="contact-grid">
+        <div class="contact-type">Address</div>
+        <div class="contact-info">1117 California Ave., Reno, NV 89509</div>
+        <div class="contact-type">Phone</div>
+        <div class="contact-info">(775) 329-1748</div>
+        <div class="contact-type">Email</div>
+        <div class="contact-info">-Put form here-</div>
+      </div>
+      <div>
+        {% form 'contact' %}
+
+          {% comment %}
+            Successful message
+          {% endcomment %}
+          {% if form.posted_successfully? %}
+            <p class="note form-success">
+              {{ 'contact.form.post_success' | t }}
+            </p>
+          {% endif %}
+
+          <!-- {{ form.errors | default_errors }}
+
+          {% assign name_attr = 'contact.form.name' | t | handle %}
+          <label for="ContactFormName" class="hidden-label">{{ 'contact.form.name' | t }}</label>
+          <input type="text" id="ContactFormName" class="input-full" name="contact[{{ name_attr }}]" placeholder="{{ 'contact.form.name' | t }}" autocapitalize="words" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+
+          <label for="ContactFormEmail" class="hidden-label">{{ 'contact.form.email' | t }}</label>
+          <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+
+          {% assign name_attr = 'contact.form.phone' | t | handle %}
+          <label for="ContactFormPhone" class="hidden-label">{{ 'contact.form.phone' | t }}</label>
+          <input type="tel" id="ContactFormPhone" class="input-full" name="contact[{{ name_attr }}]" placeholder="{{ 'contact.form.phone' | t }}" pattern="[0-9\-]*" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+
+          <label for="ContactFormMessage" class="hidden-label">{{ 'contact.form.message' | t }}</label>
+          <textarea rows="10" id="ContactFormMessage" class="input-full" name="contact[body]" placeholder="{{ 'contact.form.message' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+          <input type="submit" class="btn right" value="{{ 'contact.form.send' | t }}">
+
+        {% endform %} -->
+      </div>
+    </div>
+  </div>
+</div>
+{% assign image_shopify = '{{image}}' %}
+{% assign link_shopify = '{{link}}' %}
+
+<script type="text/javascript">
+  var instafeedDiv = document.getElementById("instafeed");
+  var userFeed = new Instafeed({
+    get: 'user',
+    userId: '340652691',
+    accessToken: '340652691.6ef3d7a.48dff2493b46450081c4b5b5f55c7d1b',
+    resolution: 'standard_resolution',
+    limit: 7,
+    template: '<a href="{{link_shopify}}" target="_blank"><div style="background-image: url({{image_shopify}})"></div></a>',
+    after: function() {
+      instafeedDiv.innerHTML += '<a class="seemore" href="https://www.instagram.com/mixbakeshop/" target="_blank"><div><p>See More<br><i class="fa fa-ellipsis-h" aria-hidden="true"></i></p></div></a>';
+    }
+  });
+  userFeed.run();
+</script>
