@@ -49,6 +49,7 @@
   <script>try{Typekit.load({ async: false });}catch(e){}</script>
   <script src="{{ 'instafeed.min.js' | asset_url }}"></script>
   <script src="https://use.fontawesome.com/1d4374c0cc.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.min.js"></script>
 
@@ -113,10 +114,13 @@
             {% endfor %}
 
           </ul>
-          <div class="cart">
-            <div class="numba">0</div>
-            <span class="fa fa-shopping-cart" aria-hidden="true"></span>
-          </div>
+          <a class="cartpreview" href="/cart">
+            <div class="cart">
+              <div id="CartCount" class="numba">{{ cart.item_count }}</div>
+              <!-- <span class="fa fa-shopping-cart" aria-hidden="true"></span> -->
+              <span class="material-icons">shopping_cart</span>
+            </div>
+          </a>
 
           <!-- //site-nav -->
         </div>
@@ -144,17 +148,36 @@
         </div>
       </div>
       <div class="wrapper ontop">
-        <a href="" class="orderbutton"><img src="{{ 'ordernow.png' | asset_url }}" alt="Order Now"></a>
+        <a href="https://www.mixreno.com/pages/store?view=store" class="orderbutton"><img src="{{ 'ordernow.png' | asset_url }}" alt="Order Now"></a>
       </div>
     </div>
 
     {% endif %}
 
-    {% if template != 'index' %}
+    {% if template != 'index' and template != 'product' and template != 'cart' %}
 
     <div class="block nothome">
       <div class="title pagetitle wrapper">
         <h1>{{ page_title }}</h1>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if template == 'product' %}
+
+    <div class="block nothome">
+      <div class="title pagetitle wrapper">
+        <h1>Store</h1>
+      </div>
+    </div>
+
+    {% endif %}
+
+    {% if template == 'cart' %}
+
+    <div class="block nothome">
+      <div class="title pagetitle wrapper">
+        <h1>Cart</h1>
       </div>
     </div>
 

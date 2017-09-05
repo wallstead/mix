@@ -9,7 +9,7 @@
 
 {% endcomment %}
 
-<div itemscope itemtype="http://schema.org/Product">
+<div class="product" itemscope itemtype="http://schema.org/Product">
 
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
   <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
@@ -19,19 +19,16 @@
   {% endcomment %}
   {% assign current_variant = product.selected_or_first_available_variant %}
 
-  {% include 'breadcrumb' %}
 
-  <div class="grid product-single">
-    <div class="grid__item large--one-half text-center">
-      <div class="product-single__photos" id="ProductPhoto">
+  <div class="product-single">
+    <div class="preview">
+      <div class="photo" id="ProductPhoto">
         {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
         <img src="{{ featured_image | img_url: 'large' }}" alt="{{ featured_image.alt | escape }}" id="ProductPhotoImg">
       </div>
 
-      {% comment %}
-        Create thumbnails if we have more than one product image
-      {% endcomment %}
-      {% if product.images.size > 1 %}
+
+      <!-- {% if product.images.size > 1 %}
         <ul class="product-single__thumbnails grid-uniform" id="ProductThumbs">
 
           {% for image in product.images %}
@@ -43,10 +40,10 @@
           {% endfor %}
 
         </ul>
-      {% endif %}
+      {% endif %} -->
     </div>
 
-    <div class="grid__item large--one-half">
+    <div class="details">
 
       <h1 itemprop="name">{{ product.title }}</h1>
 
@@ -90,30 +87,61 @@
             {% endfor %}
           </select>
 
-          <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+          <!-- <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span> -->
           <span id="ProductPrice" class="h2" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
             {{ current_variant.price | money }}
           </span>
 
-          {% if product.compare_at_price_max > product.price %}
+          <!-- {% if product.compare_at_price_max > product.price %}
             <span class="visually-hidden">{{ 'products.general.sale_price' | t }}</span>
             <p id="ComparePrice">
               {{ 'products.product.compare_at' | t }} {{ current_variant.compare_at_price | money }}
             </p>
-          {% endif %}
+          {% endif %} -->
 
-          <label for="Quantity" class="quantity-selector">{{ 'products.product.quantity' | t }}</label>
-          <input type="number" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector">
+          <div class="quantityInputOutter">
+            <input min="1" type="number" id="quantity" name="quantity" value="1" />
+            <div class="incdec">
+              <div class="opt plus">
+                <i class="material-icons">add</i>
+              </div>
+              <div class="opt minus">
+                <i class="material-icons">remove</i>
+              </div>
+            </div>
+          </div>
+
 
           <button type="submit" name="add" id="AddToCart" class="btn">
-            <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+            <span class="material-icons">add_shopping_cart</span>
+            <p>Add to Cart</p>
           </button>
         </form>
 
+        <div class="afterAdd">
+          <p>Successfully added to cart.</p>
+          <a class="afterbutton" href="/cart">
+            <button class="btn ">
+              <span class="material-icons">shopping_cart</span>
+              <p>Go to Cart</p>
+            </button>
+          </a>
+          <p>or</p>
+          <a class="afterbutton" href="/pages/store?view=store">
+            <button class="btn ">
+              <span class="material-icons">arrow_back</span>
+              <p>Back to Browse</p>
+            </button>
+          </a>
+        </div>
+
+
+
       </div>
 
-      <div class="product-description rte" itemprop="description">
-        {{ product.description }}
+      <div class="product-description" itemprop="description">
+        <h3>Description</h3>
+        <p>{{ product.description }}</p>
       </div>
 
       {% comment %}
@@ -183,5 +211,31 @@
     {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
       $('.selector-wrapper').hide();
     {% endif %}
+
+
+
+    $('.plus').on('click', function(){
+        var currentQuantity = parseInt($("#quantity").val())
+        currentQuantity++
+        $("#quantity").val(currentQuantity)
+    });
+
+    $('.minus').on('click', function(){
+        var currentQuantity = parseInt($("#quantity").val())
+        if (currentQuantity > 1) {
+          currentQuantity--
+          $("#quantity").val(currentQuantity)
+        }
+    });
+
+    $('body').on('beforeAddItem.ajaxCart', function(evt, product, form) {
+      $("#AddToCart").html('<span class="material-icons">add_shopping_cart</span><p>Adding...<p>')
+    });
+
+    $('body').on('afterAddItem.ajaxCart', function(evt, product, form) {
+      $("#AddToCart").html('<span class="material-icons">add_shopping_cart</span><p>Add to Cart</p>')
+      $(".afterAdd").css("display","flex")
+
+    });
   });
 </script>
